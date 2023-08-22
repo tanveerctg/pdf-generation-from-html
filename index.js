@@ -36,9 +36,7 @@ app.post("/", async function (req, res) {
 
   try {
     //launch browser
-    const browser = await puppeteer.launch({
-      ignoreDefaultArgs: ["--disable-extensions"],
-    });
+    const browser = await puppeteer.launch();
 
     // Create a new page
     const page = await browser.newPage();
