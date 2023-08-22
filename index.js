@@ -432,7 +432,7 @@ app.post("/", async function (req, res) {
 
     // Downlaod the PDF
     const pdf = await page.pdf({
-      path: "./shawon.pdf",
+      // path: "./shawon.pdf",
       margin: {
         bottom: 10, // minimum required for footer msg to display
         left: 10,
@@ -447,7 +447,7 @@ app.post("/", async function (req, res) {
 
     // Close the browser instance
     await browser.close();
-    res.contentType("application/pdf");
+    // res.contentType("application/pdf");
     res.send(pdf);
   } catch (err) {
     res.json({ ok: false, result: JSON.stringify(err) });
