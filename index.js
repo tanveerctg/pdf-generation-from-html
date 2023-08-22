@@ -36,7 +36,7 @@ app.post("/", async function (req, res) {
 
   try {
     //launch browser
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch(options);
 
     // Create a new page
     const page = await browser.newPage();
