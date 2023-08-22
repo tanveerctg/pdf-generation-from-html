@@ -26,6 +26,7 @@ app.post("/", async function (req, res) {
       executablePath: await chrome.executablePath,
       headless: true,
       ignoreHTTPSErrors: true,
+      ignoreDefaultArgs: ["--disable-extensions"],
     };
   }
 
