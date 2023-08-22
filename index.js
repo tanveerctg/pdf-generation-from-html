@@ -446,7 +446,7 @@ app.post("/", async function (req, res) {
       preferCSSPageSize: true,
     });
 
-    console.log({ pdf: pdf });
+    console.log({ pdfff: pdf });
     // Close the browser instance
     await browser.close();
     res.contentType("application/pdf");
