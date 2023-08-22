@@ -35,7 +35,7 @@ app.post("/", async function (req, res) {
 
   try {
     //launch browser
-    const browser = await puppeteer.launch(options);
+    const browser = await puppeteer.launch({ headless: true });
 
     // Create a new page
     const page = await browser.newPage();
@@ -432,7 +432,7 @@ app.post("/", async function (req, res) {
 
     // Downlaod the PDF
     const pdf = await page.pdf({
-      // path: "./shawon.pdf",
+      path: "./shawon.pdf",
       margin: {
         bottom: 10, // minimum required for footer msg to display
         left: 10,
