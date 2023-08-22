@@ -33,9 +33,10 @@ app.post("/", async function (req, res) {
   const tableContent = req.body.tableContent;
   const dynamicContent = req.body.dynamicContent;
 
+  console.log({ signature, tableContent });
   try {
     //launch browser
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch(options);
 
     // Create a new page
     const page = await browser.newPage();
@@ -447,7 +448,7 @@ app.post("/", async function (req, res) {
 
     // Close the browser instance
     await browser.close();
-    // res.contentType("application/pdf");
+    res.contentType("application/pdf");
     res.send(pdf);
   } catch (err) {
     res.json({ ok: false, result: JSON.stringify(err) });
