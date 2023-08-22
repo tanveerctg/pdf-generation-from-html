@@ -13,6 +13,9 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.json({ message: "hello" });
+});
 app.post("/", async function (req, res) {
   let options = {};
 
