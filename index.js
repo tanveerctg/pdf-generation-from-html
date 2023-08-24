@@ -26,9 +26,7 @@ app.post("/", async function (req, res) {
       args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
       defaultViewport: chrome.defaultViewport,
       executablePath: await chrome.executablePath,
-      headless: true,
       ignoreHTTPSErrors: true,
-      ignoreDefaultArgs: ["--disable-extensions"],
     };
   }
 
