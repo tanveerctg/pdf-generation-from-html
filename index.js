@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const playwright = require("playwright-core");
 require("dotenv").config();
 
 let chrome = {};
@@ -24,11 +25,8 @@ app.post("/", async function (req, res) {
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     options = {
       args: chrome.args,
-      defaultViewport: chrome.defaultViewport,
       executablePath: await chrome.executablePath,
-      headless: true,
-      ignoreHTTPSErrors: true,
-      ignoreDefaultArgs: ["--disable-extensions"],
+      headless: chrome.headless,
     };
   }
 
@@ -38,7 +36,7 @@ app.post("/", async function (req, res) {
 
   try {
     //launch browser
-    const browser = await puppeteer.launch(options);
+    const browser = await playwright.chromium.launch(options);
 
     // Create a new page
     const page = await browser.newPage();
@@ -431,7 +429,6 @@ app.post("/", async function (req, res) {
     await page.setContent(html);
 
     //To reflect CSS used for screens instead of print
-    await page.emulateMediaType("screen");
 
     // Downlaod the PDF
     const pdf = await page.pdf({
