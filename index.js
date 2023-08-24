@@ -23,12 +23,7 @@ app.post("/", async function (req, res) {
 
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     options = {
-      args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-      defaultViewport: chrome.defaultViewport,
-      executablePath: chrome.executablePath,
-      headless: true,
-      ignoreHTTPSErrors: true,
-      ignoreDefaultArgs: ["--disable-extensions"],
+      args: [...chrome.args],
     };
   }
 
