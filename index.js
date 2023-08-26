@@ -3,16 +3,15 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 
-let chrome = {};
+let chromium = {};
 let puppeteer;
 
 if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  chrome = require("chrome-aws-lambda");
+  chromium = require("@sparticuz/chromium");
   puppeteer = require("puppeteer-core");
 } else {
   puppeteer = require("puppeteer");
 }
-
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.get("/", (req, res) => {
@@ -449,9 +448,10 @@ app.post("/", async function (req, res) {
 
     console.log({ pdf: pdf });
     // Close the browser instance
-    await browser.close();
     res.contentType("application/pdf");
     res.send(pdf);
+    await page.close();
+    await browser.close();
   } catch (err) {
     console.log({ err });
     res.json({ ok: false, result: JSON.stringify(err) });
