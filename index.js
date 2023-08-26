@@ -1,24 +1,34 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const playwright = require("playwright-core");
 require("dotenv").config();
 
 let chrome = {};
+let puppeteer;
+
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  chrome = require("chrome-aws-lambda");
+  puppeteer = require("puppeteer-core");
+} else {
+  puppeteer = require("puppeteer");
+}
 
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.json({ message: "helloo" });
+  res.json({ message: "hello" });
 });
 app.post("/", async function (req, res) {
   let options = {};
 
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
     options = {
-      args: chrome.args,
+      args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+      defaultViewport: chrome.defaultViewport,
       executablePath: await chrome.executablePath,
-      headless: chrome.headless,
+      headless: true,
+      ignoreHTTPSErrors: true,
+      ignoreDefaultArgs: ["--disable-extensions"],
     };
   }
 
@@ -28,7 +38,7 @@ app.post("/", async function (req, res) {
 
   try {
     //launch browser
-    const browser = await playwright.chromium.launch(options);
+    const browser = await puppeteer.launch(options);
 
     // Create a new page
     const page = await browser.newPage();
@@ -421,6 +431,7 @@ app.post("/", async function (req, res) {
     await page.setContent(html);
 
     //To reflect CSS used for screens instead of print
+    await page.emulateMediaType("screen");
 
     // Downlaod the PDF
     const pdf = await page.pdf({
